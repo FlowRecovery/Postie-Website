@@ -24,24 +24,32 @@ export default function Home() {
       <section className="max-w-6xl mx-auto px-6 py-16">
         <div className="grid md:grid-cols-3 gap-12">
           <div className="text-center">
-            <div className="w-16 h-16 bg-stamp-blue rounded-full mx-auto mb-4 flex items-center justify-center">
-              <span className="text-2xl text-white">🛡️</span>
+            <div className="w-16 h-16 bg-white border-2 border-stamp-blue rounded-full mx-auto mb-4 flex items-center justify-center">
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0" aria-hidden>
+                <path d="M16 4L4 9v7c0 7 5.5 12 12 14 6.5-2 12-7 12-14V9L16 4z" fill="#1E3A8A" stroke="#1E3A8A" strokeWidth="1.5" strokeLinejoin="round"/>
+              </svg>
             </div>
             <h3 className="text-xl font-semibold text-charcoal mb-3">Protected Inbox</h3>
             <p className="text-charcoal/70">Only vetted organisations can reach you. No phishing, no spam, no noise.</p>
           </div>
           
           <div className="text-center">
-            <div className="w-16 h-16 bg-stamp-blue rounded-full mx-auto mb-4 flex items-center justify-center">
-              <span className="text-2xl text-white">📮</span>
+            <div className="w-16 h-16 bg-white border-2 border-stamp-blue rounded-full mx-auto mb-4 flex items-center justify-center">
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0" aria-hidden>
+                <path d="M4 8l12 10 12-10v14H4V8z" fill="#1E3A8A" stroke="#1E3A8A" strokeWidth="1.5" strokeLinejoin="round"/>
+                <path d="M4 8l12 10 12-10" stroke="#1E3A8A" strokeWidth="1.5" strokeLinecap="round"/>
+              </svg>
             </div>
             <h3 className="text-xl font-semibold text-charcoal mb-3">One Daily Delivery</h3>
             <p className="text-charcoal/70">Your post arrives at your chosen time. Check once, get on with your day.</p>
           </div>
           
           <div className="text-center">
-            <div className="w-16 h-16 bg-stamp-blue rounded-full mx-auto mb-4 flex items-center justify-center">
-              <span className="text-2xl text-white">✨</span>
+            <div className="w-16 h-16 bg-white border-2 border-stamp-blue rounded-full mx-auto mb-4 flex items-center justify-center">
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0" aria-hidden>
+                <circle cx="16" cy="16" r="10" stroke="#1E3A8A" strokeWidth="1.5"/>
+                <circle cx="16" cy="16" r="4" fill="#1E3A8A"/>
+              </svg>
             </div>
             <h3 className="text-xl font-semibold text-charcoal mb-3">Beautiful & Simple</h3>
             <p className="text-charcoal/70">Designed for everyone. No technical knowledge required.</p>
