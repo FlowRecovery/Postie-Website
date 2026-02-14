@@ -2,6 +2,12 @@
 
 import { useState, FormEvent } from 'react';
 
+interface WaitlistResponse {
+  success?: boolean;
+  message?: string;
+  error?: string;
+}
+
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [isJoined, setIsJoined] = useState(false);
@@ -22,7 +28,7 @@ export default function Home() {
         body: JSON.stringify({ email }),
       });
 
-      const data = await res.json();
+      const data = await res.json() as WaitlistResponse;
 
       if (!res.ok) {
         alert(data.error || 'Failed to join waitlist');
