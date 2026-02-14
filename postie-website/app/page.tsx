@@ -1,4 +1,44 @@
+'use client';
+
+import { useState, FormEvent } from 'react';
+
 export default function Home() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isJoined, setIsJoined] = useState(false);
+
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const emailInput = form.elements.namedItem('email') as HTMLInputElement;
+    const email = emailInput.value.trim();
+    if (!email) return;
+
+    setIsLoading(true);
+
+    try {
+      const res = await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.error || 'Failed to join waitlist');
+        return;
+      }
+
+      form.reset();
+      setIsJoined(true);
+      setTimeout(() => setIsJoined(false), 3000);
+    } catch {
+      alert('Network error. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return (
     <main className="min-h-screen bg-aged-paper">
       {/* Hero Section */}
@@ -75,18 +115,21 @@ export default function Home() {
           <p className="text-charcoal/70 mb-8 text-center">
             Be among the first to experience email reimagined.
           </p>
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={handleSubmit}>
             <input 
               type="email" 
+              name="email"
               placeholder="your.email@example.com"
               className="w-full px-4 py-3 border border-charcoal/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-stamp-blue"
               required
+              disabled={isLoading || isJoined}
             />
             <button 
               type="submit"
-              className="w-full bg-vintage-red text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-vintage-red/90 transition"
+              disabled={isLoading || isJoined}
+              className="w-full bg-vintage-red text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-vintage-red/90 transition disabled:opacity-70 disabled:cursor-not-allowed"
             >
-              Request Early Access
+              {isJoined ? '✓ Joined!' : isLoading ? 'Joining...' : 'Request Early Access'}
             </button>
           </form>
           <p className="text-sm text-charcoal/60 mt-6 text-center">
