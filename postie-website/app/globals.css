@@ -1,10 +1,19 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'Arsenica';
+  src: url('/fonts/arsenica/arsenica.woff2') format('woff2'),
+       url('/fonts/arsenica/arsenica.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 :root {
   --vintage-red: #C41E3A;
   --aged-paper: #F4E8D8;
   --stamp-blue: #1E3A8A;
   --charcoal: #2C2C2C;
+  --font-arsenica: Arsenica, Georgia, serif;
 }
 
 body {

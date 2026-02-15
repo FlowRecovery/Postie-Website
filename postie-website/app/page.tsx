@@ -52,7 +52,7 @@ export default function Home() {
         <div className="mb-8">
           <img src="/logo.svg" alt="Postie" className="h-16 mx-auto mb-8" />
         </div>
-        <h1 className="text-5xl md:text-6xl font-bold text-charcoal mb-6">
+        <h1 className="font-serif text-5xl md:text-6xl font-bold text-charcoal mb-6">
           Only emails that matter.<br />Delivered once a day.
         </h1>
         <p className="text-xl text-charcoal/80 mb-12 max-w-2xl mx-auto">
@@ -75,7 +75,7 @@ export default function Home() {
                 <path d="M16 4L4 9v7c0 7 5.5 12 12 14 6.5-2 12-7 12-14V9L16 4z" fill="#1E3A8A" stroke="#1E3A8A" strokeWidth="1.5" strokeLinejoin="round"/>
               </svg>
             </div>
-            <h3 className="text-xl font-semibold text-charcoal mb-3">Protected Inbox</h3>
+            <h3 className="font-serif text-xl font-semibold text-charcoal mb-3">Protected Inbox</h3>
             <p className="text-charcoal/70">Only vetted organisations can reach you. No phishing, no spam, no noise.</p>
           </div>
           
@@ -86,7 +86,7 @@ export default function Home() {
                 <path d="M4 8l12 10 12-10" stroke="#1E3A8A" strokeWidth="1.5" strokeLinecap="round"/>
               </svg>
             </div>
-            <h3 className="text-xl font-semibold text-charcoal mb-3">One Daily Delivery</h3>
+            <h3 className="font-serif text-xl font-semibold text-charcoal mb-3">One Daily Delivery</h3>
             <p className="text-charcoal/70">Your post arrives at your chosen time. Check once, get on with your day.</p>
           </div>
           
@@ -97,7 +97,7 @@ export default function Home() {
                 <circle cx="16" cy="16" r="4" fill="#1E3A8A"/>
               </svg>
             </div>
-            <h3 className="text-xl font-semibold text-charcoal mb-3">Beautiful & Simple</h3>
+            <h3 className="font-serif text-xl font-semibold text-charcoal mb-3">Beautiful & Simple</h3>
             <p className="text-charcoal/70">Designed for everyone. No technical knowledge required.</p>
           </div>
         </div>
@@ -105,7 +105,7 @@ export default function Home() {
 
       {/* Trusted Partners Hint */}
       <section className="max-w-4xl mx-auto px-6 py-16 text-center border-t border-charcoal/10">
-        <h2 className="text-2xl font-semibold text-charcoal mb-4">Trusted by Leading Organisations</h2>
+        <h2 className="font-serif text-2xl font-semibold text-charcoal mb-4">Trusted by Leading Organisations</h2>
         <p className="text-charcoal/70 mb-8">
           Banks, utilities, and essential services delivering to Postie users.
         </p>
@@ -117,7 +117,7 @@ export default function Home() {
       {/* Waitlist */}
       <section id="waitlist" className="max-w-2xl mx-auto px-6 py-16">
         <div className="bg-white rounded-2xl shadow-lg p-8">
-          <h2 className="text-3xl font-bold text-charcoal mb-4 text-center">Join the Waitlist</h2>
+          <h2 className="font-serif text-3xl font-bold text-charcoal mb-4 text-center">Join the Waitlist</h2>
           <p className="text-charcoal/70 mb-8 text-center">
             Be among the first to experience email reimagined.
           </p>
