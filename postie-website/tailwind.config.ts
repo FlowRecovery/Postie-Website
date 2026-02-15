@@ -9,10 +9,10 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        'vintage-red': '#C41E3A',
-        'aged-paper': '#F4E8D8',
-        'stamp-blue': '#1E3A8A',
-        'charcoal': '#2C2C2C',
+        'vintage-red': '#C26E63',
+        'aged-paper': '#C8BEB2',
+        'stamp-blue': '#5C94A6',
+        'charcoal': '#383D3D',
       },
       fontFamily: {
         sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
