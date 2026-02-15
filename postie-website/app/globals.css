@@ -2,10 +2,11 @@
 
 @font-face {
   font-family: 'Arsenica';
-  src: url('/fonts/arsenica/arsenica.woff2') format('woff2'),
-       url('/fonts/arsenica/arsenica.woff') format('woff');
+  src: url('/fonts/arsenica/Arsenica Regular.woff2') format('woff2'),
+       url('/fonts/arsenica/Arsenica Regular.woff') format('woff');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 :root {
