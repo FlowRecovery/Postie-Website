@@ -127,7 +127,7 @@ export default function Home() {
           </a>
           <a
             href="#hero-waitlist"
-            className="rounded-xl bg-vintage-red px-5 py-2.5 font-sans text-sm text-warm-white transition hover:bg-vintage-red/90 md:text-base"
+            className="rounded-xl bg-stamp-blue px-5 py-2.5 font-sans text-sm text-warm-white transition hover:bg-stamp-blue/90 md:text-base"
           >
             Join the waitlist
           </a>
@@ -188,7 +188,7 @@ export default function Home() {
                     className={`relative flex flex-col items-center text-center ${i < 2 ? 'md:border-r md:border-aged-paper/70 md:pr-8' : ''} ${i > 0 ? 'md:pl-8' : ''}`}
                   >
                     <div className="flex w-full flex-col items-center">
-                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-vintage-red font-serif text-xl text-warm-white">
+                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-stamp-blue font-serif text-xl text-warm-white">
                         {step.n}
                       </div>
                     </div>
@@ -329,7 +329,7 @@ export default function Home() {
         </FadeInSection>
 
         {/* Final CTA */}
-        <FadeInSection className="bg-vintage-red px-5 py-20 md:px-8 md:py-28">
+        <FadeInSection className="bg-stamp-blue px-5 py-20 md:px-8 md:py-28">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="font-serif text-3xl text-warm-white md:text-4xl">Your letterbox is waiting.</h2>
             <p className="mt-4 text-lg text-warm-white/95">Join the waitlist and be among the first to experience Postie.</p>

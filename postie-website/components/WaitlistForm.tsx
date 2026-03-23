@@ -41,7 +41,7 @@ export function WaitlistForm({
         className={
           isInverse
             ? 'min-h-[48px] shrink-0 rounded-xl bg-charcoal px-6 py-3 font-sans text-base text-warm-white transition hover:bg-charcoal/90 disabled:cursor-not-allowed disabled:opacity-70'
-            : 'min-h-[48px] shrink-0 rounded-xl bg-vintage-red px-6 py-3 font-sans text-base text-warm-white transition hover:bg-vintage-red/90 disabled:cursor-not-allowed disabled:opacity-70'
+            : 'min-h-[48px] shrink-0 rounded-xl bg-stamp-blue px-6 py-3 font-sans text-base text-warm-white transition hover:bg-stamp-blue/90 disabled:cursor-not-allowed disabled:opacity-70'
         }
       >
         {isJoined ? 'Joined' : isLoading ? 'Joining…' : 'Join the waitlist'}
