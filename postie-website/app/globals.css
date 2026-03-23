@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+@theme {
+  --color-vintage-red: #C26E63;
+  --color-aged-paper: #C8BEB2;
+  --color-stamp-blue: #5C94A6;
+  --color-charcoal: #383D3D;
+  --color-warm-white: #FFFBF7;
+  --color-cream: #FFF5E9;
+}
+
 @font-face {
   font-family: 'Arsenica';
   src: url('/fonts/arsenica/Arsenica Regular.woff2') format('woff2'),
