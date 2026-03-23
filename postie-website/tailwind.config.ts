@@ -4,6 +4,7 @@ const config: Config = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./hooks/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
@@ -13,6 +14,8 @@ const config: Config = {
         'aged-paper': '#C8BEB2',
         'stamp-blue': '#5C94A6',
         'charcoal': '#383D3D',
+        'warm-white': '#FFFBF7',
+        cream: '#FFF5E9',
       },
       fontFamily: {
         sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],

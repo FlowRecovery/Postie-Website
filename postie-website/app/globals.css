@@ -14,10 +14,16 @@
   --aged-paper: #C8BEB2;
   --stamp-blue: #5C94A6;
   --charcoal: #383D3D;
+  --warm-white: #FFFBF7;
+  --cream: #FFF5E9;
   --font-arsenica: Arsenica, Georgia, serif;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background-color: var(--aged-paper);
+  background-color: var(--cream);
   color: var(--charcoal);
 }

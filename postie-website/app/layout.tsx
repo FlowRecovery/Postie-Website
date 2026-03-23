@@ -8,8 +8,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Postie - Only emails that matter. Delivered once a day.",
-  description: "Curated email delivery for busy professionals. Whitelisted partners only.",
+  title: "Postie - Your Trusted Digital Letterbox",
+  description:
+    "Postie connects to your email and delivers only verified letters from organisations you trust. No spam. No scams. Just the post that matters. Launching Spring 2026.",
 };
 
 export default function RootLayout({
@@ -18,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en-GB">
       <body className={`${inter.variable} font-sans antialiased`}>
         {children}
       </body>

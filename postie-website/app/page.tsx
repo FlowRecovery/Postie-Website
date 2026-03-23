@@ -1,162 +1,363 @@
-  'use client';
+'use client';
 
-  import { useState, FormEvent } from 'react';
+import { useState } from 'react';
+import { FadeInSection } from '@/components/FadeInSection';
+import { PhoneMockup } from '@/components/PhoneMockup';
+import { PostieLogo } from '@/components/PostieLogo';
+import { WaitlistForm } from '@/components/WaitlistForm';
+import { useWaitlistSubmit } from '@/hooks/useWaitlistSubmit';
 
-  interface WaitlistResponse {
-    success?: boolean;
-    message?: string;
-    error?: string;
-  }
+const stroke = 'stroke-stamp-blue';
 
-  export default function Home() {
-    const [isLoading, setIsLoading] = useState(false);
-    const [isJoined, setIsJoined] = useState(false);
+function IconEnvelope({ className = 'h-10 w-10' }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 40 40" fill="none" aria-hidden>
+      <rect x="4" y="8" width="32" height="24" rx="2" className={stroke} strokeWidth={1.75} />
+      <path d="M4 12l16 12 16-12" className={stroke} strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
 
-    async function handleSubmit(e: FormEvent<HTMLFormElement>) {
-      e.preventDefault();
-      const form = e.currentTarget;
-      const emailInput = form.elements.namedItem('email') as HTMLInputElement;
-      const email = emailInput.value.trim();
-      if (!email) return;
+function IconShieldCheck({ className = 'h-10 w-10' }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 40 40" fill="none" aria-hidden>
+      <path
+        d="M20 4L8 9v9c0 8 5.5 14 12 16 6.5-2 12-8 12-16V9L20 4z"
+        className={stroke}
+        strokeWidth={1.75}
+        strokeLinejoin="round"
+      />
+      <path d="M14 20l4 4 8-8" className={stroke} strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
 
-      setIsLoading(true);
+function IconLetterboxClock({ className = 'h-10 w-10' }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 40 40" fill="none" aria-hidden>
+      <rect x="6" y="10" width="28" height="22" rx="2" className={stroke} strokeWidth={1.75} />
+      <path d="M6 16h28" className={stroke} strokeWidth={1.75} />
+      <circle cx="20" cy="25" r="5" className={stroke} strokeWidth={1.75} />
+      <path d="M20 23v2.5l1.5 1" className={stroke} strokeWidth={1.75} strokeLinecap="round" />
+    </svg>
+  );
+}
 
-      try {
-        const res = await fetch('/api/waitlist', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email }),
-        });
+function IconLock({ className = 'h-8 w-8' }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 32 32" fill="none" aria-hidden>
+      <rect x="7" y="14" width="18" height="14" rx="2" className={stroke} strokeWidth={1.75} />
+      <path d="M10 14V11a6 6 0 0112 0v3" className={stroke} strokeWidth={1.75} strokeLinecap="round" />
+    </svg>
+  );
+}
 
-        const data = await res.json() as WaitlistResponse;
+function IconEyeOff({ className = 'h-8 w-8' }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 32 32" fill="none" aria-hidden>
+      <path
+        d="M4 4l24 24M10 10c-2.5 2-4 4.5-4 6s3 8 10 8c2 0 3.5-.5 5-1.5M22 22c2.5-2 4-4.5 4-6s-3-8-10-8c-1.5 0-3 .3-4.2.8"
+        className={stroke}
+        strokeWidth={1.75}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M14 14.5a3 3 0 014 4M6 8c3.5-2 7-3 10-3s6.5 1 10 3M6 24c3.5 2 7 3 10 3s6.5-1 10-3"
+        className={stroke}
+        strokeWidth={1.75}
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
 
-        if (!res.ok) {
-          alert(data.error || 'Failed to join waitlist');
-          return;
-        }
+function IconShieldTick({ className = 'h-8 w-8' }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 32 32" fill="none" aria-hidden>
+      <path
+        d="M16 4L6 8v8c0 6 4 11 10 13 6-2 10-7 10-13V8l-10-4z"
+        className={stroke}
+        strokeWidth={1.75}
+        strokeLinejoin="round"
+      />
+      <path d="M11 16l4 4 7-7" className={stroke} strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
 
-        form.reset();
-        setIsJoined(true);
-        setTimeout(() => setIsJoined(false), 3000);
-      } catch {
-        alert('Network error. Please try again.');
-      } finally {
-        setIsLoading(false);
-      }
-    }
+const faqItems = [
+  {
+    q: 'What is Postie?',
+    a: 'Postie is a mobile app that connects to your existing email and surfaces only the letters that matter, from verified organisations like your bank, your council, and the NHS. Everything else stays out of sight.',
+  },
+  {
+    q: 'How does Postie know which emails are real post?',
+    a: 'We maintain a database of verified UK organisations. Every sender is checked by our team before they appear in Postie. If an organisation is not on our list, their emails will not appear in your Postbox.',
+  },
+  {
+    q: 'Do I need to change my email address?',
+    a: 'No. Postie works with the email account you already have. You sign in once and Postie does the rest. Your existing inbox is not affected.',
+  },
+  {
+    q: 'Is my email data safe?',
+    a: 'Postie never stores your emails on our servers. We scan your inbox to identify verified letters, but your email content stays in your email account. We do not sell data and we do not show adverts.',
+  },
+  {
+    q: 'When is Postie launching?',
+    a: 'Postie is launching in the UK in Spring 2026 on iOS and Android. Join the waitlist to be among the first to try it.',
+  },
+  {
+    q: 'Is Postie free?',
+    a: 'We will share pricing details closer to launch. Join the waitlist to be the first to know.',
+  },
+];
 
-    return (
-      <main className="min-h-screen bg-aged-paper">
-        {/* Hero Section */}
-        <section className="max-w-4xl mx-auto px-6 pt-20 pb-16 text-center">
-          <div className="mb-8">
-            <svg viewBox="0 0 1000 350" className="h-16 mx-auto mb-8 text-vintage-red" xmlns="http://www.w3.org/2000/svg" aria-label="Postie">
-              <path fill="currentColor" d="M86.2,193.7v-3.5c0,0,36,0,36,0,21.6.5,38.2-5.3,49.4-18.3,11.2-13,16.8-30,16.8-51.1-.3-14.3-3-27.7-8.2-40.2-5.2-12.5-12.7-22.7-22.4-30.6-9.8-7.9-19.9-11-32.7-11.3,0,0-32.6-1.5-36,1.5s-2.5,6.8-2.5,13.1v213.3c0,14.3,3.2,24.4,9.6,30.4,6.4,6,15.5,9.2,27.5,9.8,1.8,0,2.7.5,2.7,1.6s-1,1.6-3.1,1.6c-13.3-.8-23-1.2-29.2-1.2h-61.2c-4.9,0-12.5.4-22.6,1.2-1.6,0-2.3-.5-2.3-1.4s.8-1.5,2.3-1.8c9.1-.5,16.1-3.8,20.9-9.8,4.8-6,7.2-16.1,7.2-30.4V77.9c0-14.3-2.4-24.4-7.2-30.4-4.8-6-11.8-9.2-20.9-9.8-1.8,0-2.7-.5-2.5-1.4.1-.9,1-1.4,2.5-1.4,6.8.5,12.9.2,21.2.2s17,.4,26.4.2c9.4-.3,60.3-.2,71.2-.2,35.6,0,64.9,5.7,83.7,19.9,18.7,14.2,28.1,34.4,28.1,60.6s-8.7,43-26.1,57.3c-17.4,14.3-42.5,20.7-75.5,20.7s-12.1.3-15.5,0h-37.2Z"/>
-              <path fill="currentColor" d="M274.3,303.5c-14.4-7.7-25.7-18.5-33.9-32.6s-12.3-30-12.3-48,4.7-34.8,14-49.7c9.4-14.9,22.2-26.7,38.4-35.3,16.2-8.6,34.1-12.9,53.6-12.9s34.6,3.8,49.3,11.5c14.7,7.7,26.2,18.4,34.5,32.2,8.3,13.8,12.5,29.5,12.5,47.2s-4.7,34.9-14.2,50.1c-9.5,15.2-22.5,27.2-39,35.9-16.5,8.7-34.6,13.1-54.4,13.1s-34.1-3.8-48.6-11.5ZM379.2,293c8.4-8.4,12.7-20.9,12.7-37.2s-4.1-33.4-12.3-52.7c-8.2-19.2-18.5-35.6-30.8-48.9-12.4-13.4-24.4-20.1-36.1-20.1s-26,4.2-34.3,12.5c-8.3,8.3-12.5,20.8-12.5,37.4s4,33.1,12.1,52.5c8.1,19.4,18.3,35.8,30.6,49.1,12.3,13.4,24.2,20.1,35.7,20.1s26.5-4.2,34.9-12.7Z"/>
-              <path fill="currentColor" d="M450.8,235.8c.3-1,.8-1.5,1.6-1.4.8.1,1.3.7,1.6,1.8.3,22.6,5.8,40.4,16.6,53.4,10.8,13,25.4,19.5,43.9,19.5s35.1-8.1,35.1-24.2c-.3-10.4-4.8-19.7-13.6-27.9-8.8-8.2-22.2-17.4-40.2-27.5-16.9-10.1-29.6-19.2-38-27.3-8.5-8.1-12.7-17.4-12.7-28.1s3.3-17.1,9.9-24.8c6.6-7.7,15.8-13.7,27.5-18.1,11.7-4.4,24.7-6.6,39-6.6s32.8,2.4,47.6,7.2c14.8,4.8,21.2,11.4,19.1,19.7l-12.1,46.8c-.3.8-.7,1.2-1.4,1.2s-1-.5-1-1.6c-1.8-44.7-21.8-67.1-60.1-67.1s-19.3,1.8-23.6,5.3-6.4,8.3-6.4,14.2,3.9,14.1,11.7,20.5c7.8,6.4,21.5,15.1,41,26.3,17.2,9.6,30.8,19.4,41,29.2,10.1,9.9,15.2,21.5,15.2,34.7s-3.5,19.3-10.5,27.5c-7,8.2-16.9,14.6-29.6,19.3-12.7,4.7-27.2,7-43.3,7s-23.9-1.4-35.1-4.1c-11.2-2.7-19.9-6.5-26.1-11.3-6.2-4.8-8.8-10.1-7.8-15.8l10.9-48Z"/>
-              <path fill="currentColor" d="M632.5,302.1c-7-8.3-10.5-18.7-10.5-31.2v-126c0-3.9-.5-6.8-1.4-8.6-.9-1.8-3.2-2.7-6.8-2.7h-13.7c-1,0-1.6-.3-1.6-1s.5-1.1,1.6-1.4c14.8-2.6,28.4-9.1,40.8-19.5,12.3-10.4,20.7-23.5,25.2-39.4,0-1.6.5-2.3,1.6-2.3s1.2.8,1.2,2.3c-.3,20-.9,37-2,51.1,0,3.1.6,5.1,2,6,1.3.9,3.8.8,7.7.8h36.5c.5,0,.5,1,.4,1.9-.1.9-.8,1.4-2.1,1.4h-33.2c-4.4,0-7.4.7-9,2.1-1.6,1.4-2.3,4.1-2.3,8v115.8c0,9.6,2,17,5.8,22.2,3.9,5.2,8.8,7.8,14.8,7.8s9.8-1.7,15.2-5.1c5.5-3.4,10.7-8.2,15.6-14.4,1.3-1.3,2.2-1.7,2.7-1.2.5.5.3,1.4-.8,2.7-10.4,14.6-20.9,25.3-31.4,32.4-10.5,7-20.3,10.5-29.4,10.5s-19.9-4.2-26.9-12.5Z"/>
-              <path fill="currentColor" d="M793.4,295.5c3.8,7.3,9.7,11.1,17.7,11.3,1.3,0,2,.5,2,1.4s-.7,1.4-2,1.4c-4.9-.3-20.2-.4-45.6-.4s-41.1.1-46,.4c-1.6,0-2.2-.5-2-1.6.3-1,1.3-1.6,3.1-1.6,14.8,0,22.2-12.7,22.2-38.2v-87.4c0-9.9-1.2-17.1-3.7-21.6-2.5-4.5-7.1-6.8-13.8-6.8s-3.5.3-6.6.8c-1,.3-1.6,0-1.8-1-.1-.9.2-1.5,1-1.8,12.2-2.9,24.8-6.6,37.6-11.3,12.9-4.7,23.3-9.8,31.4-15.2.8-.5,1.7-.8,2.7-.8s1.9.8,1.9,2.3c-1.6,14.6-2.6,25.9-3.1,33.9-.5,8.1-.8,17.4-.8,28.1v80.7c0,10.9,1.9,20,5.7,27.3ZM732.8,83.7c-5.3-2.9-8.3-7.1-9.1-12.5-1-6.7,1.4-12.9,7.2-18.6,5.7-5.7,13.5-9.2,23.3-10.7s14.5-.3,19.7,2.7c5.2,2.9,8.1,7.2,9,12.9s-1.4,12.8-7.2,18.4c-5.8,5.6-13.5,9-23.3,10.5s-14.2.2-19.5-2.7Z"/>
-              <path fill="currentColor" d="M991.9,274.4c.6.5.7,1.2.2,2-10.1,12.5-22.4,22-36.7,28.5-14.3,6.5-29.2,9.8-44.8,9.8s-31.6-3.8-45.6-11.3-25.2-18.3-33.3-32.2c-8.2-13.9-12.3-30-12.3-48.2s4.5-34.4,13.5-49.5c9-15.1,21.1-27,36.5-35.7,15.3-8.7,32.1-13.1,50.3-13.1s37.2,5.5,50.7,16.6c13.5,11.1,21.7,27.8,22.9,46.7s2.6,26.7-7.8,26.8c-18.9.2-126,0-126,0,4.4,14.3,12.1,29.8,21.4,41.1,9.2,11.3,19.8,20.2,31.8,26.5,12,6.4,23.7,9.6,35.1,9.6,19,0,33.3-6,42.9-17.9.3-.3.7-.1,1.4.4ZM867.1,145.6c-7.7,9-11.5,22.4-11.5,40.4s.5,15,3.1,25.4c14.8-.3,80.7,0,86.4,0,2.3-3.9,3.3-8.3,3.3-14.1,0-8.6-2.4-18-7.2-28.3-4.8-10.3-10.9-19-18.3-26.1-7.4-7.1-14.9-10.7-22.4-10.7-14.6,0-25.7,4.5-33.3,13.5Z"/>
-            </svg>
-          </div>
-          <h1 className="font-serif text-5xl md:text-6xl font-bold text-charcoal mb-6">
-            Only emails that matter.<br />Delivered once a day.
-          </h1>
-          <p className="text-xl text-charcoal/80 mb-12 max-w-2xl mx-auto">
-            Curated email for busy professionals. Whitelisted partners only.
-          </p>
-          <a 
-            href="#waitlist" 
-            className="inline-block bg-vintage-red text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-vintage-red/90 transition"
-          >
-            Join the Waitlist
+export default function Home() {
+  const { handleSubmit, isLoading, isJoined } = useWaitlistSubmit();
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
+
+  return (
+    <>
+      <header className="fixed left-0 right-0 top-0 z-50 border-b border-aged-paper/80 bg-cream">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4 md:px-8">
+          <a href="#" className="flex shrink-0 items-center">
+            <PostieLogo heightClass="h-8 md:h-9" />
           </a>
-        </section>
+          <a
+            href="#hero-waitlist"
+            className="rounded-xl bg-vintage-red px-5 py-2.5 font-sans text-sm text-warm-white transition hover:bg-vintage-red/90 md:text-base"
+          >
+            Join the waitlist
+          </a>
+        </div>
+      </header>
+
+      <main className="pt-[72px] font-sans font-normal text-charcoal">
+        {/* Hero */}
+        <FadeInSection className="bg-cream px-5 pb-16 pt-10 md:min-h-0 md:px-8 md:pb-20 md:pt-16 lg:pt-[120px]">
+          <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
+            <div>
+              <h1 className="font-serif text-4xl text-charcoal md:text-5xl lg:text-[2.75rem] lg:leading-tight">
+                Only the post that matters.
+              </h1>
+              <p className="mt-6 max-w-xl text-xl leading-relaxed text-charcoal md:text-[1.25rem]">
+                Postie is your trusted digital letterbox. It connects to your email, filters out the noise, and delivers
+                only verified letters from the organisations you trust.
+              </p>
+              <div id="hero-waitlist" className="mt-10 scroll-mt-28">
+                <WaitlistForm onSubmit={handleSubmit} isLoading={isLoading} isJoined={isJoined} variant="default" />
+              </div>
+              <p className="mt-4 font-sans text-sm text-stamp-blue md:text-base">UK launch. Spring 2026. iOS and Android.</p>
+            </div>
+            <div className="flex justify-center lg:justify-end">
+              <PhoneMockup />
+            </div>
+          </div>
+        </FadeInSection>
+
+        {/* How it works */}
+        <FadeInSection className="bg-cream px-5 py-20 md:px-8 md:py-28">
+          <div className="mx-auto max-w-6xl">
+            <h2 className="text-center font-serif text-3xl text-charcoal md:text-4xl">How Postie works</h2>
+            <div className="mt-16 md:mt-20">
+              <div className="grid gap-14 md:grid-cols-3 md:gap-0">
+                {[
+                  {
+                    n: 1,
+                    icon: <IconEnvelope />,
+                    title: 'Connect your email',
+                    body: 'Sign in with your existing email account. Google, Microsoft, Yahoo, and more. Postie reads your inbox so you do not have to.',
+                  },
+                  {
+                    n: 2,
+                    icon: <IconShieldCheck />,
+                    title: 'We find your real post',
+                    body: 'Every sender is verified against our database of trusted organisations. Banks, councils, utilities, the NHS. If they are not verified, they are not in Postie.',
+                  },
+                  {
+                    n: 3,
+                    icon: <IconLetterboxClock />,
+                    title: 'Delivered to your door',
+                    body: 'Your letters arrive in your Postbox at 9am each morning. One delivery. No spam. No scams. Just the post that matters.',
+                  },
+                ].map((step, i) => (
+                  <div
+                    key={step.n}
+                    className={`relative flex flex-col items-center text-center ${i < 2 ? 'md:border-r md:border-aged-paper/70 md:pr-8' : ''} ${i > 0 ? 'md:pl-8' : ''}`}
+                  >
+                    <div className="flex w-full flex-col items-center">
+                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-vintage-red font-serif text-xl text-warm-white">
+                        {step.n}
+                      </div>
+                    </div>
+                    <div className="mt-6 flex justify-center md:mt-8">{step.icon}</div>
+                    <h3 className="mt-4 font-serif text-xl text-charcoal">{step.title}</h3>
+                    <p className="mt-3 max-w-sm text-base leading-relaxed text-charcoal/85 md:mx-auto">{step.body}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </FadeInSection>
 
         {/* Features */}
-        <section className="max-w-6xl mx-auto px-6 py-16">
-          <div className="grid md:grid-cols-3 gap-12">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-white border-2 border-stamp-blue rounded-full mx-auto mb-4 flex items-center justify-center">
-                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0" aria-hidden>
-                  <path d="M16 4L4 9v7c0 7 5.5 12 12 14 6.5-2 12-7 12-14V9L16 4z" className="fill-stamp-blue stroke-stamp-blue" strokeWidth="1.5" strokeLinejoin="round"/>
-                </svg>
+        <FadeInSection className="bg-warm-white px-5 py-20 md:px-8 md:py-28">
+          <div className="mx-auto max-w-6xl">
+            <h2 className="text-center font-serif text-3xl text-charcoal md:text-4xl">Built around trust</h2>
+            <div className="mt-16 space-y-24 md:mt-24 md:space-y-28">
+              <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+                <div className="order-2 lg:order-1">
+                  <h3 className="font-serif text-2xl text-charcoal md:text-3xl">One delivery. Every morning.</h3>
+                  <p className="mt-4 max-w-lg text-lg leading-relaxed text-charcoal/85">
+                    Your verified letters arrive at 9am, ready to read. No constant notifications. No anxiety. Just a
+                    single, calm moment to check your post.
+                  </p>
+                </div>
+                <div className="order-1 flex justify-center lg:order-2 lg:justify-end">
+                  <PhoneMockup />
+                </div>
               </div>
-              <h3 className="font-serif text-xl font-semibold text-charcoal mb-3">Protected Inbox</h3>
-              <p className="text-charcoal/70">Only vetted organisations can reach you. No phishing, no spam, no noise.</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="w-16 h-16 bg-white border-2 border-stamp-blue rounded-full mx-auto mb-4 flex items-center justify-center">
-                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0" aria-hidden>
-                  <path d="M4 8l12 10 12-10v14H4V8z" className="fill-stamp-blue stroke-stamp-blue" strokeWidth="1.5" strokeLinejoin="round"/>
-                  <path d="M4 8l12 10 12-10" className="stroke-stamp-blue" strokeWidth="1.5" strokeLinecap="round"/>
-                </svg>
-              </div>
-              <h3 className="font-serif text-xl font-semibold text-charcoal mb-3">One Daily Delivery</h3>
-              <p className="text-charcoal/70">Your post arrives at your chosen time. Check once, get on with your day.</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="w-16 h-16 bg-white border-2 border-stamp-blue rounded-full mx-auto mb-4 flex items-center justify-center">
-                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0" aria-hidden>
-                  <circle cx="16" cy="16" r="10" className="stroke-stamp-blue" strokeWidth="1.5"/>
-                  <circle cx="16" cy="16" r="4" className="fill-stamp-blue"/>
-                </svg>
-              </div>
-              <h3 className="font-serif text-xl font-semibold text-charcoal mb-3">Beautiful & Simple</h3>
-              <p className="text-charcoal/70">Designed for everyone. No technical knowledge required.</p>
             </div>
           </div>
-        </section>
+        </FadeInSection>
 
-        {/* Trusted Partners Hint */}
-        <section className="max-w-4xl mx-auto px-6 py-16 text-center border-t border-charcoal/10">
-          <h2 className="font-serif text-2xl font-semibold text-charcoal mb-4">Trusted by Leading Organisations</h2>
-          <p className="text-charcoal/70 mb-8">
-            Banks, utilities, and essential services delivering to Postie users.
-          </p>
-          <div className="text-sm text-charcoal/60">
-            Partnership enquiries: <a href="mailto:partners@getpostie.app" className="text-stamp-blue hover:underline">partners@getpostie.app</a>
+        <FadeInSection className="bg-cream px-5 py-20 md:px-8 md:py-28">
+          <div className="mx-auto max-w-6xl">
+            <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+              <div className="flex justify-center lg:justify-start">
+                <PhoneMockup />
+              </div>
+              <div>
+                <h3 className="font-serif text-2xl text-charcoal md:text-3xl">Everything filed. Nothing lost.</h3>
+                <p className="mt-4 max-w-lg text-lg leading-relaxed text-charcoal/85">
+                  Every letter you have read moves to your Shoebox, organised and searchable. Bank statements, council
+                  tax, appointment letters. All in one place, whenever you need them.
+                </p>
+              </div>
+            </div>
           </div>
-        </section>
+        </FadeInSection>
 
-        {/* Waitlist */}
-        <section id="waitlist" className="max-w-2xl mx-auto px-6 py-16">
-          <div className="bg-white rounded-2xl shadow-lg p-8">
-            <h2 className="font-serif text-3xl font-bold text-charcoal mb-4 text-center">Join the Waitlist</h2>
-            <p className="text-charcoal/70 mb-8 text-center">
-              Be among the first to experience email reimagined.
-            </p>
-            <form className="space-y-4" onSubmit={handleSubmit}>
-              <input 
-                type="email" 
-                name="email"
-                placeholder="your.email@example.com"
-                className="w-full px-4 py-3 border border-charcoal/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-stamp-blue"
-                required
-                disabled={isLoading || isJoined}
-              />
-              <button 
-                type="submit"
-                disabled={isLoading || isJoined}
-                className="w-full bg-vintage-red text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-vintage-red/90 transition disabled:opacity-70 disabled:cursor-not-allowed"
-              >
-                {isJoined ? '✓ Joined!' : isLoading ? 'Joining...' : 'Request Early Access'}
-              </button>
-            </form>
-            <p className="text-sm text-charcoal/60 mt-6 text-center">
-              UK launch only. iOS app coming Spring 2026.
-            </p>
+        <FadeInSection className="bg-warm-white px-5 py-20 md:px-8 md:py-28">
+          <div className="mx-auto max-w-6xl">
+            <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+              <div className="order-2 lg:order-1">
+                <h3 className="font-serif text-2xl text-charcoal md:text-3xl">Time-sensitive post, delivered immediately.</h3>
+                <p className="mt-4 max-w-lg text-lg leading-relaxed text-charcoal/85">
+                  Some things cannot wait until morning. Password resets, two-factor codes, urgent appointment changes.
+                  Postie knows the difference and delivers them straight away.
+                </p>
+              </div>
+              <div className="order-1 flex justify-center lg:order-2 lg:justify-end">
+                <PhoneMockup />
+              </div>
+            </div>
           </div>
-        </section>
+        </FadeInSection>
+
+        {/* Privacy */}
+        <FadeInSection className="border-t border-aged-paper/40 bg-warm-white px-5 py-20 md:px-8 md:py-28">
+          <div className="mx-auto max-w-4xl text-center">
+            <h2 className="font-serif text-3xl text-charcoal md:text-4xl">Always private. Always ad-free.</h2>
+            <p className="mx-auto mt-6 max-w-[640px] text-lg leading-relaxed text-charcoal/85">
+              Postie never stores your emails. We never sell your data. We never show you adverts. Your letterbox is
+              yours and yours alone.
+            </p>
+            <div className="mt-14 grid gap-6 md:grid-cols-3 md:gap-8">
+              {[
+                {
+                  icon: <IconLock className="mx-auto h-8 w-8" />,
+                  title: 'No data stored',
+                  text: 'Postie scans your inbox to find verified letters but never copies or stores your email content.',
+                },
+                {
+                  icon: <IconEyeOff className="mx-auto h-8 w-8" />,
+                  title: 'No adverts. Ever.',
+                  text: 'Postie is funded by its users, not advertisers. Your attention is not for sale.',
+                },
+                {
+                  icon: <IconShieldTick className="mx-auto h-8 w-8" />,
+                  title: 'Verified senders only',
+                  text: 'Every organisation in Postie is checked by hand. No exceptions.',
+                },
+              ].map((card) => (
+                <div key={card.title} className="rounded-xl bg-cream p-6 text-left md:p-8">
+                  <div className="mb-4 flex justify-center md:justify-start">{card.icon}</div>
+                  <h4 className="font-serif text-lg text-charcoal">{card.title}</h4>
+                  <p className="mt-3 text-base leading-relaxed text-charcoal/85">{card.text}</p>
+                </div>
+              ))}
+            </div>
+            <a href="#" className="mt-10 inline-block font-sans text-stamp-blue underline-offset-4 hover:underline">
+              Read our privacy promise
+            </a>
+          </div>
+        </FadeInSection>
+
+        {/* FAQ */}
+        <FadeInSection className="bg-cream px-5 py-20 md:px-8 md:py-28">
+          <div className="mx-auto max-w-[720px]">
+            <h2 className="text-center font-serif text-3xl text-charcoal md:text-4xl">Questions</h2>
+            <ul className="mt-12 space-y-2">
+              {faqItems.map((item, index) => {
+                const open = openFaq === index;
+                return (
+                  <li key={item.q} className="rounded-xl border border-charcoal/10 bg-warm-white">
+                    <button
+                      type="button"
+                      className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left font-sans text-charcoal md:px-6 md:py-5"
+                      aria-expanded={open}
+                      onClick={() => setOpenFaq(open ? null : index)}
+                    >
+                      <span className="text-base md:text-lg">{item.q}</span>
+                      <span className="shrink-0 text-stamp-blue" aria-hidden>
+                        {open ? '−' : '+'}
+                      </span>
+                    </button>
+                    {open && (
+                      <div className="border-t border-charcoal/10 px-5 pb-5 pt-3 md:px-6 md:pb-6">
+                        <p className="text-base leading-relaxed text-charcoal/85">{item.a}</p>
+                      </div>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </FadeInSection>
+
+        {/* Final CTA */}
+        <FadeInSection className="bg-vintage-red px-5 py-20 md:px-8 md:py-28">
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="font-serif text-3xl text-warm-white md:text-4xl">Your letterbox is waiting.</h2>
+            <p className="mt-4 text-lg text-warm-white/95">Join the waitlist and be among the first to experience Postie.</p>
+            <div className="mt-10">
+              <WaitlistForm onSubmit={handleSubmit} isLoading={isLoading} isJoined={isJoined} variant="inverse" />
+            </div>
+          </div>
+        </FadeInSection>
 
         {/* Footer */}
-        <footer className="max-w-6xl mx-auto px-6 py-12 mt-16 border-t border-charcoal/10">
-          <div className="text-center text-charcoal/60 text-sm">
-            <p>&copy; 2026 Postie. All rights reserved.</p>
+        <footer className="bg-charcoal px-5 py-12 text-warm-white md:px-8">
+          <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-3 md:items-center">
+            <div className="text-center font-serif text-xl text-warm-white md:text-left">Postie</div>
+            <p className="text-center text-sm text-aged-paper">Made in the UK</p>
+            <div className="flex flex-wrap items-center justify-center gap-3 font-sans text-sm md:justify-end">
+              <a href="#" className="text-warm-white/90 hover:underline">
+                Privacy
+              </a>
+              <span className="text-aged-paper" aria-hidden>
+                |
+              </span>
+              <a href="#" className="text-warm-white/90 hover:underline">
+                Contact
+              </a>
+            </div>
           </div>
+          <p className="mx-auto mt-10 max-w-6xl text-center text-sm text-warm-white/70">2026 Postie. All rights reserved.</p>
         </footer>
       </main>
-    );
-  }
+    </>
+  );
+}
