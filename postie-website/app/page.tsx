@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { CookieBanner } from '@/components/CookieBanner';
 import { FadeInSection } from '@/components/FadeInSection';
 import { PhoneMockup } from '@/components/PhoneMockup';
 import { PostieLogo } from '@/components/PostieLogo';
@@ -358,6 +359,8 @@ export default function Home() {
           <p className="mx-auto mt-10 max-w-6xl text-center text-sm text-warm-white/70">2026 Postie. All rights reserved.</p>
         </footer>
       </main>
+
+      <CookieBanner />
     </>
   );
 }
