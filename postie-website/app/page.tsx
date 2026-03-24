@@ -139,7 +139,7 @@ export default function Home() {
         <FadeInSection className="bg-cream px-5 pb-16 pt-10 md:min-h-0 md:px-8 md:pb-20 md:pt-16 lg:pt-[120px]">
           <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
             <div>
-              <h1 className="font-serif text-4xl text-charcoal md:text-5xl lg:text-[2.75rem] lg:leading-tight">
+              <h1 className="font-serif text-5xl leading-tight text-charcoal md:text-7xl md:leading-[1.05]">
                 Only the post that matters.
               </h1>
               <p className="mt-6 max-w-xl text-xl leading-relaxed text-charcoal md:text-[1.25rem]">

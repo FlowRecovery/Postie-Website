@@ -12,7 +12,7 @@ export function PostieLogo({ className = '', heightClass = 'h-8' }: PostieLogoPr
 
   if (failed) {
     return (
-      <span className={`font-serif text-xl text-vintage-red ${className}`} aria-label="Postie">
+      <span className={`font-serif text-xl text-charcoal ${className}`} aria-label="Postie">
         Postie
       </span>
     );
