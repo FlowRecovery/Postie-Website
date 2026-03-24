@@ -346,7 +346,9 @@ export default function Home() {
         {/* Footer */}
         <footer className="bg-charcoal px-5 py-12 text-warm-white md:px-8">
           <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-3 md:items-center">
-            <div className="text-center font-serif text-xl text-warm-white md:text-left">Postie</div>
+            <div className="flex justify-center md:justify-start">
+              <PostieLogo className="text-warm-white" heightClass="h-7 md:h-8" />
+            </div>
             <p className="text-center text-sm text-aged-paper">Made in the UK</p>
             <div className="flex flex-wrap items-center justify-center gap-3 font-sans text-sm md:justify-end">
               <a href="#" className="text-warm-white/90 hover:underline">
