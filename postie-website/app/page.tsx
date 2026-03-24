@@ -149,7 +149,9 @@ export default function Home() {
               <div id="hero-waitlist" className="mt-10 scroll-mt-28">
                 <WaitlistForm onSubmit={handleSubmit} isLoading={isLoading} isJoined={isJoined} variant="default" />
               </div>
-              <p className="mt-4 font-sans text-sm text-stamp-blue md:text-base">UK launch. Spring 2026. iOS and Android.</p>
+              <p className="mt-4 font-sans text-sm text-charcoal/85 md:text-base">
+                UK launch. Spring 2026. iOS and Android.
+              </p>
             </div>
             <div className="flex justify-center lg:justify-end">
               <PhoneMockup />
@@ -206,16 +208,16 @@ export default function Home() {
         <FadeInSection className="bg-warm-white px-5 py-20 md:px-8 md:py-28">
           <div className="mx-auto max-w-6xl">
             <h2 className="text-center font-serif text-3xl text-charcoal md:text-4xl">Built around trust</h2>
-            <div className="mt-16 space-y-24 md:mt-24 md:space-y-28">
-              <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-                <div className="order-2 lg:order-1">
+            <div className="mt-8 space-y-20 md:mt-12 md:space-y-28">
+              <div className="grid gap-10 lg:grid-cols-2 lg:items-stretch lg:gap-16">
+                <div className="order-2 flex min-h-0 flex-col justify-center lg:order-1">
                   <h3 className="font-serif text-2xl text-charcoal md:text-3xl">One delivery. Every morning.</h3>
                   <p className="mt-4 max-w-lg text-lg leading-relaxed text-charcoal/85">
                     Your verified letters arrive at 9am, ready to read. No constant notifications. No anxiety. Just a
                     single, calm moment to check your post.
                   </p>
                 </div>
-                <div className="order-1 flex justify-center lg:order-2 lg:justify-end">
+                <div className="order-1 flex items-center justify-center lg:order-2 lg:justify-end">
                   <PhoneMockup />
                 </div>
               </div>
@@ -225,11 +227,11 @@ export default function Home() {
 
         <FadeInSection className="bg-cream px-5 py-20 md:px-8 md:py-28">
           <div className="mx-auto max-w-6xl">
-            <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-              <div className="flex justify-center lg:justify-start">
+            <div className="grid gap-10 lg:grid-cols-2 lg:items-stretch lg:gap-16">
+              <div className="flex items-center justify-center lg:justify-start">
                 <PhoneMockup />
               </div>
-              <div>
+              <div className="flex min-h-0 flex-col justify-center">
                 <h3 className="font-serif text-2xl text-charcoal md:text-3xl">Everything filed. Nothing lost.</h3>
                 <p className="mt-4 max-w-lg text-lg leading-relaxed text-charcoal/85">
                   Every letter you have read moves to your Shoebox, organised and searchable. Bank statements, council
@@ -242,15 +244,15 @@ export default function Home() {
 
         <FadeInSection className="bg-warm-white px-5 py-20 md:px-8 md:py-28">
           <div className="mx-auto max-w-6xl">
-            <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-              <div className="order-2 lg:order-1">
+            <div className="grid gap-10 lg:grid-cols-2 lg:items-stretch lg:gap-16">
+              <div className="order-2 flex min-h-0 flex-col justify-center lg:order-1">
                 <h3 className="font-serif text-2xl text-charcoal md:text-3xl">Time-sensitive post, delivered immediately.</h3>
                 <p className="mt-4 max-w-lg text-lg leading-relaxed text-charcoal/85">
                   Some things cannot wait until morning. Password resets, two-factor codes, urgent appointment changes.
                   Postie knows the difference and delivers them straight away.
                 </p>
               </div>
-              <div className="order-1 flex justify-center lg:order-2 lg:justify-end">
+              <div className="order-1 flex items-center justify-center lg:order-2 lg:justify-end">
                 <PhoneMockup />
               </div>
             </div>
@@ -285,7 +287,9 @@ export default function Home() {
               ].map((card) => (
                 <div key={card.title} className="rounded-xl bg-cream p-6 text-left md:p-8">
                   <div className="mb-4 flex justify-center md:justify-start">{card.icon}</div>
-                  <h4 className="font-serif text-lg text-charcoal">{card.title}</h4>
+                  <h4 className="text-lg text-charcoal [font-family:var(--font-arsenica),Georgia,serif]">
+                    {card.title}
+                  </h4>
                   <p className="mt-3 text-base leading-relaxed text-charcoal/85">{card.text}</p>
                 </div>
               ))}
@@ -356,7 +360,9 @@ export default function Home() {
               </a>
             </div>
           </div>
-          <p className="mx-auto mt-10 max-w-6xl text-center text-sm text-warm-white/70">2026 Postie. All rights reserved.</p>
+          <p className="mx-auto mt-10 max-w-6xl text-center text-sm text-warm-white/70">
+            © 2026 Postie. All rights reserved.
+          </p>
         </footer>
       </main>
 
